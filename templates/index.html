@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>WriteAhead</title>
+		<!-- Lastest IE version -->
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/bootstrap.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/bootstrap-theme.min.css')}}">
+		<script type="text/javascript" src="static/jquery.js"></script>
+		<script type=text/javascript>
+  			var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+		</script>
+        <script type="text/javascript" src="{{url_for('static', filename='js/tinymce/jquery-2.0.3.js')}}"></script>
+        <script type="text/javascript" src="{{url_for('static', filename='js/tinymce/tinymce.min.js')}}"></script>
+        <script type="text/javascript" src="{{url_for('static', filename='js/tinymce/jquery.tinymce.min.js')}}"></script>
+        <script type="text/javascript">
+            var defaultword = "";
+            var bindword = "@";
+            $(function() {
+  				  var wordtime = function(){
+  					wt = setTimeout(function(){submit_word()},100);
+  					ct = setTimeout(function(){submit_Lphrase()},100);
+  					ct2 = setTimeout(function(){submit_Lphrase_second()},100);
+  					ct3 = setTimeout(function(){submit_Lphrase_third()},100);
+  				}
+
+  				var stoptime = function(){
+  					clearTimeout(wt);
+  					clearTimeout(ct);
+  					clearTimeout(ct2);
+  					clearTimeout(ct3);
+  				}
+
+    			var submit = function(e) {
+      				$.getJSON($SCRIPT_ROOT + '/_show_words', {
+                text: tinyMCE.get("clickevent1").getContent({format:'text'}),
+      				}, function(data) {
+        				//$('#result').text(data.result);
+        			  defaultword = data.result;
+      				});
+      				return false;
+    			};
+    			var submit_second = function(e) {
+      				$.getJSON($SCRIPT_ROOT + '/_show_words', {
+                text: tinyMCE.get("clickevent2").getContent({format:'text'}),
+      				}, function(data) {
+        				//$('#result').text(data.result);
+        			  defaultword = data.result;
+      				});
+      				return false;
+    			};
+    			var submit_third = function(e) {
+      				$.getJSON($SCRIPT_ROOT + '/_show_words', {
+                text: tinyMCE.get("clickevent3").getContent({format:'text'}),
+      				}, function(data) {
+        				//$('#result').text(data.result);
+        			  defaultword = data.result;
+      				});
+      				return false;
+    			};
+    			var submit_word = function() {
+      				$.getJSON($SCRIPT_ROOT + '/aangetSuggestion', {
+                text: tinyMCE.get("clickevent1").getContent({format:'text'}),
+      				}, function(data) {
+      					//$('#word').text('')
+      					//console.log(data)
+						$.each(data, function(index,value) {
+							//$('#word').append(value+'<br>');
+						});
+      				});
+      				return false;
+    			};
+    			var submit_phrase = function() {
+      				$.getJSON($SCRIPT_ROOT + '/lexgetSuggestion', {
+                text: tinyMCE.get("clickevent1").getContent({format: 'text'}),
+      				}, function(data) {
+      					//$('#phrase').text('')
+      					//console.log(data)
+						$.each(data, function(index,value) {
+							//$('#phrase').append(value+'<br>');
+						});
+      				});
+      				return false;
+    			};
+    			var submit_phrase_second = function() {
+      				$.getJSON($SCRIPT_ROOT + '/lexgetSuggestion', {
+                text: tinyMCE.get("clickevent2").getContent({format: 'text'}),
+      				}, function(data) {
+      					//$('#phrase').text('')
+      					//console.log(data)
+						$.each(data, function(index,value) {
+							//$('#phrase').append(value+'<br>');
+						});
+      				});
+      				return false;
+    			};
+    			var submit_phrase_third = function() {
+      				$.getJSON($SCRIPT_ROOT + '/lexgetSuggestion', {
+                text: tinyMCE.get("clickevent3").getContent({format: 'text'}),
+      				}, function(data) {
+      					//$('#phrase').text('')
+      					//console.log(data)
+						$.each(data, function(index,value) {
+							//$('#phrase').append(value+'<br>');
+						});
+      				});
+      				return false;
+    			};
+    			var submit_Lphrase = function() {
+      				$.getJSON($SCRIPT_ROOT + '/lingetSuggestion', {
+                text: tinyMCE.get("clickevent1").getContent({format:'text'}),
+      				}, function(data) {
+      					//$('#conj').text('')
+      					//console.log(data)
+						$.each(data, function(index,value) {
+							//$('#conj').append(value+'<br>');
+						});
+      				});
+      				return false;
+    			};
+    			var submit_Lphrase_second = function() {
+      				$.getJSON($SCRIPT_ROOT + '/lingetSuggestion', {
+                text: tinyMCE.get("clickevent2").getContent({format:'text'}),
+      				}, function(data) {
+      					//$('#conj').text('')
+      					//console.log(data)
+						$.each(data, function(index,value) {
+							//$('#conj').append(value+'<br>');
+						});
+      				});
+      				return false;
+    			};
+    			var submit_Lphrase_third = function() {
+      				$.getJSON($SCRIPT_ROOT + '/lingetSuggestion', {
+                text: tinyMCE.get("clickevent3").getContent({format:'text'}),
+      				}, function(data) {
+      					//$('#conj').text('')
+      					//console.log(data)
+						$.each(data, function(index,value) {
+							//$('#conj').append(value+'<br>');
+						});
+      				});
+      				return false;
+    			};
+    			/*
+    			$('.fancybox').fancybox({
+        			wrapCSS    : 'fancybox-custom',
+			        closeClick : true,
+
+			        helpers : {
+			            title : {
+			                type : 'inside'
+			            },
+			            overlay : {
+			                css : {
+			                    'background' : '#eee'
+			                },
+			                opacity : 0.65
+			            }
+			        }
+			    });
+			    */
+            tinymce.init({
+                selector: "textarea.edit",
+                height: 184,
+                plugins: [
+                    "advlist autolink lists link image charmap print preview hr anchor pagebreak",
+                    "searchreplace wordcount visualblocks visualchars code fullscreen",
+                    "insertdatetime media nonbreaking save table contextmenu directionality",
+                    "emoticons template paste textcolor mention"
+                ],
+                toolbar: "bold italic underline alignleft aligncenter alignright fontsizeselect bullist numlist undo redo forecolor backcolor",
+                mentions: {
+                  delimiter: bindword,
+                  source: function (query, process, delimiter){
+                      $.getJSON("/lexgetSuggestion?text=" + defaultword, function(data){
+                        process(data);
+                      })
+                  },
+                render: function(item){
+                console.log(item.name);
+                    return '<li style="text-align:left"><a href="javascript:;"><span>'+ item.name + '</span></a></li>';
+
+                }
+               },
+               setup: function(ed){
+                 ed.on("keydown", function(e){
+                   //if(e.keyCode == 9 | e.keyCode == 13 | e.keyCode==32 | e.keyCode == 64){
+                     if(this.id == "clickevent1"){
+                       submit(e);
+                       submit_phrase();
+                     }
+                     if(this.id == "clickevent2"){
+                       submit_second(e);
+                       submit_phrase_second();
+                     }
+                     if(this.id == "clickevent3"){
+                       submit_third(e);
+                       submit_phrase_third();
+                     }
+                   //}
+                 })
+                 ed.on("keyup", function(){
+                     wordtime();
+                 })
+                 ed.on("keydown", function(){
+                     stoptime();
+                 })
+
+               }
+          });
+  		});
+        </script>
+		<script src="http://code.jquery.com/ui/1.10.0/jquery-ui.js"></script>
+		<script type="text/javascript" src="static/jquery.mousewheel-3.0.6.pack.js"></script>
+		<script type="text/javascript" src="static/jquery.fancybox.pack.js"></script>
+		<script type="text/javascript" src="static/jquery.fancybox-buttons.js"></script>
+		<script type="text/javascript" src="static/jquery.fancybox-thumbs.js"></script>
+        <script type="text/javascript" src="{{url_for('static', filename='bootstrap.min.js')}}"></script>
+		<script type="text/javascript" src="static/buttonclick.js"></script>
+
+		<link type="text/css" rel="stylesheet" href="static/css/writeAhead.css" />
+		<link rel="stylesheet" href="static/css/jquery.fancybox.css" type="text/css" media="screen" />
+		<link rel="stylesheet" href="static/css/jquery.fancybox-buttons.css" type="text/css" media="screen" />
+		<link rel="stylesheet" href="static/css/jquery.fancybox-thumbs.css" type="text/css" media="screen" />
+		<link rel="shortcut icon" href="static/img/favicon.jpg" />
+	<script type="text/javascript">
+      (function() {
+       var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+       po.src = 'https://apis.google.com/js/client:plusone.js';
+       var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+     })();
+    </script>
+	</head>
+	<body>
+	<a href="https://github.com/chenyunchen"><img style="background-color:transparent;position: absolute; top: 0; right: 0; border: 0; z-index:9999" src="https://github-camo.global.ssl.fastly.net/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub"></a>
+		<div id="header">
+		    <img src="static/img/logo.jpg" alt="writeAhead" />
+	    </div>
+		<div id="main">
+	  <button type="button" id="save" class="btn btn-lg btn-primary" data-toggle="button">Save Document</button>
+	  &nbsp;&nbsp;&nbsp;
+    <span class="btn btn-success btn-lg btn-file">
+        Select Document <input id="filename" type="file">
+    </span>
+    <button type="button" id="load" class="btn btn-lg btn-warning" data-toggle="button">Upload</button>
+    &nbsp;&nbsp;&nbsp;
+    <h2 style="display: inline"><span id="time" class="label label-default">上次最後存檔時間: None</span></h2>
+
+  		<div id="signinButton" class="show" style="float: right">
+              <div class="g-signin"
+                data-callback="loginFinishedCallback"
+                data-approvalprompt="force"
+                data-clientid="553971853790-7qnitih8tn98pe72mb9ts6g3v6424869.apps.googleusercontent.com"
+                data-scope="https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/plus.profile.emails.read"
+                data-height="tall"
+                data-cookiepolicy="single_host_origin"
+                >
+            </div>
+        <!-- In most cases, you don't want to use approvalprompt=force. Specified
+        here to facilitate the demo.-->
+        </div>
+
+    <div id="profile" class="hide" style="float: right">
+        <div>
+        <span style="font-size:25px;color:cornflowerblue">Welcome,  </span>
+        <span id="pic"></span>
+        <span id="name" style="font-size:20px"></span>
+        </div>
+    </div>
+	<br />
+    <br />
+	  <div id="labelsection">
+	      <Button id="buttontitle" type="button" class="btn btn-danger buttontitle">中文    文本</button>
+	      <Button id="buttontitle" type="button" class="btn btn-danger buttontitle">英文    編輯區</button>
+	  </div>
+      <div class="editsection">
+			<div class="transarea">
+				<div id="title">
+					<!-- <select align = right>
+						<option>IB</option>
+						<option>IP</option>
+						<option>IG</option>
+						<option>IF</option>
+						<option>IR</option>
+						<option>IQ</option>
+						<option>IV</option>
+						<option>IJ</option>
+						<option>IM</option>
+						<option>IL</option>
+						<option>IC</option>
+						<option>IO</option>
+					</select> -->
+        </div>
+        <textarea id="firstparagraph" class="form-control" placeholder="First Paragraph..." rows="14" disabled></textarea>
+      </div>
+      <div id="click1" class="transarea">
+          <button id="buttonclick1" type="button" class="btn btn-info buttonclick">點擊啟用編輯</button>
+      </div>
+      </div>
+
+    <div class="editsection">
+			<div class="transarea">
+				<div id="title">
+        </div>
+        <textarea id="secondparagraph" class="form-control" placeholder="Second Paragraph..." rows="14" disabled></textarea>
+      </div>
+      <div id="click2" class="transarea">
+          <button id="buttonclick2" type="button" class="btn btn-info buttonclick">點擊啟用編輯</button>
+      </div>
+      </div>
+    <div class="editsection">
+			<div class="transarea">
+				<div id="title">
+        </div>
+        <textarea id="thirdparagraph" class="form-control" placeholder="Third Paragraph..." rows="14" disabled></textarea>
+      </div>
+      <div id="click3" class="transarea">
+          <button id="buttonclick3" type="button" class="btn btn-info buttonclick">點擊啟用編輯</button>
+      </div>
+      </div>
+			<!--<div id="function">
+				<div id="db1">
+					<div class="db_title" style="margin-top: 0px;"><img id="db1img" style="vertical-align: bottom;" src="static/img/off.gif"> Word</div>
+					<div id="word" class="db_content"></div>
+				</div>
+				<div id="db2">
+					<div class="db_title"><img id="db2img" style="vertical-align: bottom;" src="static/img/off.gif"> Phrase</div>
+					<div id="phrase" class="db_content" ></div>
+				</div>
+				<div id="trans">
+					<div class="db_title"><img id="transimg" style="vertical-align: bottom;" src="static/img/off.gif"> Conjunction</div>
+					<div id="result" class="db_content" ></div>
+				</div>
+			</div>
+    </div>-->
+		<div id="footer">
+			<div id="copyright">NTHU NLPlab 2013 | All Rights Reserved  <span class="fancybox" style="cursor:pointer; color:#008298;" href="static/img/help.jpg">Help</span></div>
+		</div>
+	</body>
+</html>
